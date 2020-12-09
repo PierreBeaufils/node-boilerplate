@@ -10,21 +10,6 @@ const router = require('./router');
 
 const port = process.env.PORT || 3000;
 
-/* For session, express-session
- const session = require('express-session');
-
-server.use(session({
-  secret: 'keyboard cat',
-  resave: true,
-  saveUninitialized: true,
-  cookie: {
-    httpOnly: true,
-    secure: false,
-    maxAge: 1000 * 60 * 60 * 24,
-  },
-}));
-*/
-
 // middleware to access to req.body
 server.use(express.urlencoded({ extended: true }));
 
@@ -56,15 +41,30 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-
+// Launch server
 server.launch = () => {
   server.listen(port, () => console.log(`Server running on http://localhost:${port}`));
 };
 
-// toutes les promesses qu'on n'entoure pas d'un try/catch seront automatiquement stoppées ici si elles sont rejetées
+// all promises not in a try/catch will be automatically stopped here if they are rejected
 process.on('unhandledRejection', (err) => {
   console.log('Interception d\'un rejet de promesse');
   console.error(err);
 });
 
 module.exports = server;
+
+/* For session, express-session
+ const session = require('express-session');
+
+server.use(session({
+  secret: 'keyboard cat',
+  resave: true,
+  saveUninitialized: true,
+  cookie: {
+    httpOnly: true,
+    secure: false,
+    maxAge: 1000 * 60 * 60 * 24,
+  },
+}));
+*/
